@@ -19,7 +19,6 @@ class Request
 
     public function __construct()
     {
-        var_dump('paso 2 contructor');
         foreach (array('class', 'method', 'id') as $key) {
             if (array_key_exists($key, $_REQUEST)) {
                 $this->$key = $_REQUEST[$key];
@@ -93,7 +92,7 @@ class Request
         
         $dom->appendChild($root);
 
-        header("Content-Type:text/xml");
+        header("Content-Type:text/xml; charset=utf-8");
         echo $dom->saveXML();
     }
 

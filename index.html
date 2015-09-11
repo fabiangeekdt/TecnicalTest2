@@ -10,25 +10,14 @@
                                 var request = new Ajax.Request(url,
                                         {
                                         method: 'get',
-                                        /*
-                                        requestHeaders: {Accept: 'application/JSON'},
-                                        onSuccess: function(req) {                                                          
-                                                //('#result').html(req.responseText.evalJSON('force'));
-                                                //has to return a resposeJSON not a responseText
-                                                // var servers = req.responseText.evalJSON();
-                                                for(var servers in req.responseJSON ){
-                                                        // alert(req.headerJSON);
-                                                        var tr = new Element('tr');
-                                                        for (var property in servers) {
-                                                                tr.appendChild(new Element('td', {}).update([property]));
-                                                        }
-                                                        $('host_table').appendChild(tr);
-                                                }      
-                                        },
-                                        */ 
-                                        requestHeaders: {Accept: 'application/xml'},
+                                        /*doing the debug in mozilla firefox i realize that the variable responseJSON is empty
+                                        so i decide to change the header for receiving an application/xml instead of application/JSON
+                                        and receive the request as req.responseXML, then i do a loop in the etElementsByTagName("host")
+                                        and find the childnodes that contains all the data to show.
+                                        method: 'get',
+                                        requestHeaders: {Accept: 'application/json'},
                                         onSuccess: function(req) {
-                                        var servers = req.responseXML;
+                                        var servers = req.responseText.evalJSON();
                                                 for (var i = 0; i < servers.length; i++) {
                                                         var tr = new Element('tr');
                                                         for (var property in servers[i]) {
@@ -36,6 +25,20 @@
                                                         }
                                                         $('host_table').appendChild(tr);
                                                 }
+                                        }
+                                        */ 
+                                        requestHeaders: {Accept: 'application/xml'},
+                                        onSuccess: function(req) {
+                                                var servers = req.responseXML;
+                                                var x = servers.getElementsByTagName("host");
+                                                for (i=0;i<x.length;i++)
+                                                {
+                                                        var tr = new Element('tr');
+                                                        for(j= 0; j<x[i].childNodes.length; j++){
+                                                                tr.appendChild(new Element('td', {}).update(x[i].children[j].innerHTML));
+                                                        }
+                                                        $('host_table').appendChild(tr);
+                                                }                        
                                         },
                                         onFailure: function (req){
                                                 window.alert("Error A: " + req.statusText);
