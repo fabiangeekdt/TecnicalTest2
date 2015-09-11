@@ -10,7 +10,7 @@
                                 var request = new Ajax.Request(url,
                                         {
                                         method: 'get',
-                                        /*doing the debug in mozilla firefox i realize that the variable responseJSON is empty
+                                        /*Doing the debug in mozilla firefox i realize that the variable responseJSON is empty
                                         so i decide to change the header for receiving an application/xml instead of application/JSON
                                         and receive the request as req.responseXML, then i do a loop in the etElementsByTagName("host")
                                         and find the childnodes that contains all the data to show.
